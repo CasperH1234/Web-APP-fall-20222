@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opskrift</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+  <link rel = "stylesheet" href = "css/opskrifter.css">
+</head>
+<header>
+    <!--sidemenubar start-->
+  <div class="wrapper">
+    <div class="section">
+        <div class="top_navbar">
+            <div class="hamburger">
+                <a href="#">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </div>
+        </div>
+         
+    </div>
+    <div class="sidebar">
+             <!--profil billede-->
+        <div class="profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="profile_picture">
+            <h3>Ulrik Jensen</h3>
+        </div>
+        <ul>
+            <li>
+     <!--Alle vores kategorier der gør det muligt at gå til de andre menupunkter-->
+                <a href="tilbud.html" class="active">
+                    <span class="item">Tilbud</span>
+                </a>
+            </li>
+            <li>
+                <a href="butik.html">
+                    <span class="item">Find Butik</span>
+                </a>
+            </li>
+            <li>
+                <a href="opskrifter.html">
+                    <span class="item">Opskrifter</span>
+                </a>
+            </li>
+            <li>
+                <a href="inventar.html">
+                    <span class="item">Inventar</span>
+                </a>
+            </li>
+
+        </ul>
+          <!--kontakt info-->
+        <div class="sidecontact">
+            <h1> INFO </h1>
+            <p> Dailychoices A/S
+                Norsgade 20, 1. 8000 Aarhus
+                +45 28 32 28 39
+                info@dailychoices.dk</p>
+
+        </div>
+
+
+    </div>
+
+    
+</div>
+                <!--Logo øverst-->
+   <img class = "logo" src="img/Logo.PNG" alt=""> 
+</header>
+<body>
+  
+  <div class = "container">
+    <div class = "meal-wrapper">
+      <div class = "meal-search">
+      <!--Søgebar der gør det muligt at søge efter opskrifter -->
+        <div class = "meal-search-box">
+          <input type = "text" class = "search-control" placeholder="indtast ingredienser" id = "search-input">
+          <button type = "submit" class = "search-btn btn" id = "search-btn">
+            <i class = "fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+        <!--dine opskriftresultater ud fra de ingrendienser du har indtastet -->
+      <div class = "meal-result">
+        <h2 class = "title">Dine resultater:</h2>
+        <div id= "meal">
+        </div>
+      </div>
+
+      <div class = "meal-details">
+        <!-- Opskriftknappe-->
+        <button type = "button" class = "btn recipe-close-btn" id = "recipe-close-btn">
+          <i class = "fas fa-times"></i>
+        </button>
+        <!-- der hvor du får alt dit indhold-->
+        <div class = "meal-details-content">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    //vores menu som gør det muligt at åbne & lukke den
+   var hamburger = document.querySelector(".hamburger");
+hamburger.addEventListener("click", function(){
+document.querySelector("body").classList.toggle("active");
+})
+
+    //vores constants som laver et bindeled, så det er muligt at søge på ingrendienser og finde opskrifter. 
+    const searchBtn = document.getElementById('search-btn');
+const mealList = document.getElementById('meal');
+const mealDetailsContent = document.querySelector('.meal-details-content');
+const recipeCloseBtn = document.getElementById('recipe-close-btn');
+
+// Søgefunktionen der gør det muligt at søge efter opskrifter via ingrendienser 
+searchBtn.addEventListener('click', getMealList);
+mealList.addEventListener('click', getMealRecipe);
+recipeCloseBtn.addEventListener('click', () => {
+    mealDetailsContent.parentElement.classList.remove('showRecipe');
+});
+
+
+function getMealList(){
+    let searchInputTxt = document.getElementById('search-input').value.trim();
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInputTxt}`)
+    .then(response => response.json())
+    .then(data => {
+        let html = "";
+        if(data.meals){
+            data.meals.forEach(meal => {
+                html += `
+                    <div class = "meal-item" data-id = "${meal.idMeal}">
+                        <div class = "meal-img">
+                            <img src = "${meal.strMealThumb}" alt = "food">
+                        </div>
+                        <div class = "meal-name">
+                            <h3>${meal.strMeal}</h3>
+                            <a href = "#" class = "recipe-btn">Opskrift</a>
+                        </div>
+                    </div>
+                `;
+            });
+            mealList.classList.remove('notFound');
+        } else{
+            html = "Beklager, vi fandt ingen opskrift!";
+            mealList.classList.add('notFound');
+        }
+
+        mealList.innerHTML = html;
+    });
+}
+
+
+// Opskrift api'en 
+function getMealRecipe(e){
+    e.preventDefault();
+    if(e.target.classList.contains('recipe-btn')){
+        let mealItem = e.target.parentElement.parentElement;
+        fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem.dataset.id}`)
+        .then(response => response.json())
+        .then(data => mealRecipeModal(data.meals));
+    }
+}
+
+// Opskriftbeskrivelse + video 
+function mealRecipeModal(meal){
+    console.log(meal);
+    meal = meal[0];
+    let html = `
+        <h2 class = "recipe-title">${meal.strMeal}</h2>
+        <p class = "recipe-category">${meal.strCategory}</p>
+        <div class = "recipe-instruct">
+            <h3>Instructions:</h3>
+            <p>${meal.strInstructions}</p>
+        </div>
+        <div class = "recipe-meal-img">
+            <img src = "${meal.strMealThumb}" alt = "">
+        </div>
+        <div class = "recipe-link">
+            <a href = "${meal.strYoutube}" target = "_blank">Watch Video</a>
+        </div>
+    `;
+    mealDetailsContent.innerHTML = html;
+    mealDetailsContent.parentElement.classList.add('showRecipe');
+}
+  </script>
+</body>
+</html>

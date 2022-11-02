@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/butik.css">
+    <title>Document</title>
+</head>
+<header>
+      <!--sidemenubar start-->
+    <div class="wrapper">
+      <div class="section">
+          <div class="top_navbar">
+              <div class="hamburger">
+                  <a href="#">
+                      <i class="fas fa-bars"></i>
+                  </a>
+              </div>
+          </div>
+           
+      </div>
+                   <!--profil billede-->
+      <div class="sidebar">
+          <div class="profile">
+              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="profile_picture">
+              <h3>Ulrik Jensen</h3>
+          </div>
+          <ul>
+              <li>
+     <!--Alle vores kategorier der gør det muligt at gå til de andre menupunkter-->
+                  <a href="tilbud.html" class="active">
+                      <span class="item">Tilbud</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="butik.html">
+                      <span class="item">Find Butik</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="opskrifter.html">
+                      <span class="item">Opskrifter</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="inventar.html">
+                      <span class="item">Inventar</span>
+                  </a>
+              </li>
+
+          </ul>
+                <!--kontakt info-->
+          <div class="sidecontact">
+              <h1> INFO </h1>
+              <p> Dailychoices A/S
+                  Norsgade 20, 1. 8000 Aarhus
+                  +45 28 32 28 39
+                  info@dailychoices.dk</p>
+          </div>
+      </div>  
+  </div>
+
+</header>
+               <!--Logo øverst på siden-->
+<img class = "logo" src="img/Logo.PNG" alt=""> 
+<body>
+    <!--Vores kort-->
+  <div class="row">
+    <div class="col-md-8">
+      <div id="map1" class="map"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+       var hamburger = document.querySelector(".hamburger");
+hamburger.addEventListener("click", function(){
+  document.querySelector("body").classList.toggle("active");
+})
+
+  function initMap(){
+    //Vores kort zoom + default lokation, det er skolen vi har sat som default lokation, det kan i se ved Lat & Ing
+    var options = {
+      zoom:16, 
+      cente:2,
+      center:{lat:56.116980,lng:10.149840}
+    }
+    // ny map 
+    var map = new google.maps.Map(document.getElementById('map1'), options)
+    
+    //tilføj marker
+    addMarker({lat:56.116230,lng:10.151180})
+    addMarker({lat:56.116860,lng:10.155180})
+    addMarker({lat:56.122330,lng:10.142180})
+    addMarker({lat:56.128424,lng:10.117077})
+    addMarker({lat:56.128942,lng:10.1469398})
+
+    function addMarker(coords){
+      var marker = new google.maps.Marker({
+        position:coords, 
+        map:map,
+        icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png'   
+    });
+    }
+  }
+ </script> 
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe0YSW3QBbXcTebqXwOYYxRUxHW2iHYGc&callback=initMap&v=weekly"  defer></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+<header>
+
+ <!--sidemenubar start-->
+  <div class="wrapper">
+    <div class="section">
+        <div class="top_navbar">
+            <div class="hamburger">
+                <a href="#">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </div>
+        </div>
+         
+    </div>
+    <div class="sidebar">
+              <!--profil billede-->
+        <div class="profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="profile_picture">
+            <h3>Ulrik Jensen</h3>
+        </div>
+        <ul>
+            <li>
+                 <!--Alle vores kategorier der gør det muligt at gå til de andre menupunkter-->
+
+                <a href="tilbud.html" class="active">
+                    <span class="item">Tilbud</span>
+                </a>
+            </li>
+            <li>
+                <a href="butik.html">
+                    <span class="item">Find Butik</span>
+                </a>
+            </li>
+            <li>
+                <a href="opskrifter.html">
+                    <span class="item">Opskrifter</span>
+                </a>
+            </li>
+            <li>
+                <a href="inventar.html">
+                    <span class="item">Inventar</span>
+                </a>
+            </li>
+        </ul>
+       <!--kontakt info-->
+        <div class="sidecontact">
+            <h1> INFO </h1>
+            <p> Dailychoices A/S
+                Norsgade 20, 1. 8000 Aarhus
+                +45 28 32 28 39
+                info@dailychoices.dk</p>
+        </div>
+    </div>
+</div>
+        <!--Logo øverst på siden-->
+   <img class = "logo" src="img/Logo.PNG" alt=""> 
+</header>
+<body >
+        <div class="container">
+         <!-- vores container der indeholder alle knapperne -->
+
+          <button  class="dropdownbuttons">Køleskab
+            <!-- elementet til at skjule og vise dropdown -->
+            
+          </button>
+          <div class="dropdown-container">
+            <!-- container til dropdown data -->
+            <table class="tablelist">
+              <thead>
+                  <tr>
+                    
+                      <th>Beskrivelse</th>
+                      <th>Udløbsdato</th>
+                      
+                  </tr>
+              </thead>
+              <tbody id="data-output"></tbody>
+          </table>
+          </div>
+
+
+
+
+          <br>
+          <button class="dropdownbuttons">Fryser
+          
+          </button>
+          <div class="dropdown-container">
+            <table class="tablelist">
+              <thead>
+                  <tr>
+                    
+                      <th>Beskrivelse</th>
+                      <th>Udløbsdato</th>
+                      
+                  </tr>
+              </thead>
+              <tbody id="data-output1"></tbody>
+          </table>
+          </div>
+          
+<br>
+<button class="dropdownbuttons">Garage
+  <i class="fa fa-caret-down"></i>
+</button>
+<div class="dropdown-container">
+  <table class="tablelist">
+    <thead>
+        <tr>
+          
+            <th>Beskrivelse</th>
+            <th>Udløbsdato</th>
+            
+        </tr>
+    </thead>
+    <tbody id="data-output3"></tbody>
+</table>
+</div>
+
+
+          <script>
+            	fetch("productsKoleskab.json")
+.then(function(response){
+   return response.json();
+})
+.then(function(productskøleskab){
+   let placeholder = document.querySelector("#data-output");
+   let out = "";
+   for(let product of productskøleskab){
+      out += `
+         <tr>
+       
+            <td>${product.Navn}</td>
+            <td>${product.Dato}</td>
+            
+         </tr>
+      `;
+   }
+ 
+   placeholder.innerHTML = out;
+});
+  
+            fetch("productsFryser.json")
+.then(function(response){
+ return response.json();
+})
+.then(function(productsFryser){
+ let placeholder = document.querySelector("#data-output1");
+ let out = "";
+ for(let product of productsFryser){
+    out += `
+       <tr>
+     
+          <td>${product.Navn}</td>
+          <td>${product.Dato}</td>
+          
+       </tr>
+    `;
+ }
+
+ placeholder.innerHTML = out;
+});
+
+            fetch("productsSkab.json")
+.then(function(response){
+ return response.json();
+})
+.then(function(productsSkab){
+ let placeholder = document.querySelector("#data-output2");
+ let out = "";
+ for(let product of productsSkab){
+    out += `
+       <tr>
+     
+          <td>${product.Navn}</td>
+          <td>${product.Dato}</td>
+          
+       </tr>
+    `;
+ }
+
+ placeholder.innerHTML = out;
+});
+        </script>
+
+          <script>
+            fetch("productsGarage.json")
+.then(function(response){
+ return response.json();
+})
+.then(function(productsGarage){
+ let placeholder = document.querySelector("#data-output3");
+ let out = "";
+ for(let product of productsGarage){
+    out += `
+       <tr>
+     
+          <td>${product.Navn}</td>
+          <td>${product.Dato}</td>
+          
+       </tr>
+    `;
+ }
+
+ placeholder.innerHTML = out;
+});
+
+           //vores menu som gør det muligt at åbne & lukke den
+          var hamburger = document.querySelector(".hamburger");
+       hamburger.addEventListener("click", function(){
+       document.querySelector("body").classList.toggle("active");
+       })
+       
+       //* Gå gennem alle dropdown-knapper for at skifte mellem at skjule og vise  dropdown-indhold  */
+       var dropdown = document.getElementsByClassName("dropdownbuttons");
+       var i;
+       
+       for (i = 0; i < dropdown.length; i++) {
+         dropdown[i].addEventListener("click", function() {
+           this.classList.toggle("active1");
+           var dropdownContent = this.nextElementSibling;
+           if (dropdownContent.style.display === "block") {
+             dropdownContent.style.display = "none";
+           } else {
+             dropdownContent.style.display = "block";
+           }
+         });
+       }
+      
+
+       </script>
+</body>
+</html>

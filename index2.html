@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Document</title>
+</head>
+<header>
+   
+<!--sidemenubar start-->
+    <div class="wrapper">
+      <div class="section">
+          <div class="top_navbar">
+              <div class="hamburger">
+                  <a href="#">
+                      <i class="fas fa-bars"></i>
+                  </a>
+              </div>
+          </div>
+           
+      </div>
+      <div class="sidebar">
+          <!--profil billede-->
+          <div class="profile">
+              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="profile_picture">
+              <h3>Ulrik Jensen</h3>
+          </div>
+          <ul>
+              <li>
+                     <!--Alle vores kategorier der gør det muligt at gå til de andre menupunkter-->
+                  <a href="tilbud.html" class="active">
+                      <span class="item">Tilbud</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="butik.html">
+                      <span class="item">Find Butik</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="opskrifter.html">
+                      <span class="item">Opskrifter</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="inventar.html">
+                      <span class="item">Inventar</span>
+                  </a>
+              </li>
+
+          </ul>
+                 <!--kontakt info-->
+          <div class="sidecontact">
+              <h1> INFO </h1>
+              <p> Dailychoices A/S
+                  Norsgade 20, 1. 8000 Aarhus
+                  +45 28 32 28 39
+                  info@dailychoices.dk</p>
+          </div>
+      </div>
+  </div>
+</header>
+               <!--Logo øverst på siden-->
+<img class = "logo" src="img/Logo.PNG" alt=""> 
+<!-- giver body en class fordi den har en anderledes baggrund så det designet i bunden -->
+<body class="baggrund">
+  <!-- vores container der indeholder alle knapperne -->
+        <div class="container">
+        <div class="buttons">
+
+          <a href="tilbud.html">Tilbud</a>
+          <br>
+          <a href="butik.html">Find Butik</a> 
+          <br>
+          <a href="opskrifter.html">Opskrifter</a> 
+          <br>
+          <a href="inventar.html">Inventar</a> 
+        </div>
+        </div>
+
+        <script>
+        //vores menu som gør det muligt at åbne & lukke den
+            var hamburger = document.querySelector(".hamburger");
+       hamburger.addEventListener("click", function(){
+         document.querySelector("body").classList.toggle("active");
+       })
+       
+       </script>       
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>JSSample</title>
+    <link
+    href="https://d21oefkcnoen8i.cloudfront.net/sgn-sdk-4.x.x.min.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+</head>
+<header>
+    <!--sidemenubar start-->
+    <div class="wrapper">
+        <div class="section">
+            <div class="top_navbar">
+                <div class="hamburger">
+                    <a href="#">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+             
+        </div>
+        <div class="sidebar">
+             <!--profil billede-->
+            <div class="profile">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="profile_picture">
+                <h3>Ulrik Jensen</h3>
+            </div>
+            <ul>
+                <li>
+    <!--Alle vores kategorier der gør det muligt at gå til de andre menupunkter-->
+                    <a href="tilbud.html" class="active">
+                        <span class="item">Tilbud</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="butik.html">
+                        <span class="item">Find Butik</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="opskrifter.html">
+                        <span class="item">Opskrifter</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="inventar.html">
+                        <span class="item">Inventar</span>
+                    </a>
+                </li>
+            </ul>
+                <!--kontakt info-->
+            <div class="sidecontact">
+                <h1> INFO </h1>
+                <p> Dailychoices A/S
+                    Norsgade 20, 1. 8000 Aarhus
+                    +45 28 32 28 39
+                    info@dailychoices.dk</p>
+
+            </div>
+        </div>
+    </div>
+                <!--Logo øverst på siden-->
+   <img class = "logo" src="img/Logo.PNG" alt=""> 
+</header>
+<body>  
+     <!--tabel liste der gør det overskueligt at se Salling Groups tilbud -->
+    <table class="tablelist">
+        <thead>
+            <tr>
+                <th>Billede</th>
+                <th>Beskrivelse</th>
+                <th>Pris</th>
+                
+            </tr>
+        </thead>
+        <tbody id="output"></tbody>
+    </table>
+<script>
+
+    //vores menu som gør det muligt at åbne & lukke den
+           var hamburger = document.querySelector(".hamburger");
+    hamburger.addEventListener("click", function(){
+    document.querySelector("body").classList.toggle("active");
+    })
+
+    async function getData() {
+    // trækker tilbud ud fra salling-groups butikker som ligger i postnr 8000 området 
+    const response = await fetch("https://api.sallinggroup.com/v1/food-waste/?zip=8000", {
+        headers: {
+        Authorization: "Bearer fabd71fa-437e-4be7-a463-b8997fbd7d4d"
+    }
+    })
+    const data = await response.json();
+    console.log(data);
+
+    for (const vare of data) {
+        // Fjerner I // i linjen herunder, kan I se hvilke oplysninger der er tilgængelige:
+         console.log(vare)
+        for (let i=0; i< vare.clearances.length; i++ ) {
+            output.insertAdjacentHTML("beforeend", `<tr>
+                <td><img src='${vare.clearances[i].product.image}'" alt="produktbillede" style="width: 50px;"></td>
+                <td>${vare.clearances[i].product.description} </td>
+                <td>${vare.clearances[i].offer.discount}kr.</td>
+                
+            </tr>`)
+        }
+    }
+
+}
+
+getData();
+
+</script>
+
+</body>
+</html>
